@@ -1,0 +1,556 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void showProducts(string id[], string name[], string category[],
+                  string gender[], string size[], string color[],
+                  double price[], int stock[], int productCount)
+{
+    cout << "\n========== ALL PRODUCTS ==========\n";
+
+    for (int i = 0; i < productCount; i++)
+    {
+        cout << "\nID: " << id[i];
+        cout << "\nName: " << name[i];
+        cout << "\nCategory: " << category[i];
+        cout << "\nGender: " << gender[i];
+        cout << "\nSize: " << size[i];
+        cout << "\nColor: " << color[i];
+        cout << "\nPrice: $" << price[i];
+        cout << "\nStock: " << stock[i];
+        cout << "\n-------------------------\n";
+    }
+}
+
+void showCategories()
+{
+    cout << "\n========== CATEGORIES ==========\n";
+    cout << "1. Women\n";
+    cout << "2. Men\n";
+    cout << "3. Kids\n";
+    cout << "4. Shoes\n";
+    cout << "5. Bags\n";
+    cout << "6. Accessories\n";
+}
+
+void searchProducts(string id[], string name[], string category[],
+                    double price[], int stock[], int productCount)
+{
+    string search;
+    bool found = false;
+
+    cout << "\nEnter Product ID, Name or Category: ";
+    cin >> search;
+
+    for (int i = 0; i < productCount; i++)
+    {
+        if (id[i] == search || name[i] == search || category[i] == search)
+        {
+            cout << "\nProduct Found!\n";
+            cout << "ID: " << id[i] << endl;
+            cout << "Name: " << name[i] << endl;
+            cout << "Category: " << category[i] << endl;
+            cout << "Price: $" << price[i] << endl;
+            cout << "Stock: " << stock[i] << endl;
+
+            found = true;
+        }
+    }
+
+    if (found == false)
+    {
+        cout << "\nProduct Not Found.\n";
+    }
+}
+
+void showCart(string name[], double price[], int quantity[],
+              string size[], string color[], int productCount)
+{
+    double subtotal = 0;
+    bool empty = true;
+
+    cout << "\n========== SHOPPING CART ==========\n";
+
+    for (int i = 0; i < productCount; i++)
+    {
+        if (quantity[i] > 0)
+        {
+            cout << "\nProduct: " << name[i];
+            cout << "\nSize: " << size[i];
+            cout << "\nColor: " << color[i];
+            cout << "\nQuantity: " << quantity[i];
+            cout << "\nPrice: $" << price[i];
+            cout << "\nTotal: $" << price[i] * quantity[i];
+            cout << "\n-------------------------\n";
+
+            subtotal += price[i] * quantity[i];
+            empty = false;
+        }
+    }
+
+    if (empty == true)
+    {
+        cout << "Cart is empty.\n";
+    }
+    else
+    {
+        cout << "\nSubtotal: $" << subtotal << endl;
+    }
+}
+
+void lowStockReport(string name[], int stock[], int productCount)
+{
+    cout << "\n========== LOW STOCK REPORT ==========\n";
+
+    bool found = false;
+
+    for (int i = 0; i < productCount; i++)
+    {
+        if (stock[i] <= 10)
+        {
+            cout << name[i] << " --> " << stock[i] << " items left\n";
+            found = true;
+        }
+    }
+
+    if (found == false)
+    {
+        cout << "No low stock products.\n";
+    }
+}
+
+void storeStatistics(string name[], double price[], int stock[],
+                     int productCount)
+{
+    int totalItems = 0;
+    int lowStock = 0;
+    double stockValue = 0;
+
+    for (int i = 0; i < productCount; i++)
+    {
+        totalItems += stock[i];
+        stockValue += price[i] * stock[i];
+
+        if (stock[i] <= 10)
+        {
+            lowStock++;
+        }
+    }
+
+    cout << "\n========== STORE STATISTICS ==========\n";
+    cout << "Number of Products: " << productCount << endl;
+    cout << "Total Items In Stock: " << totalItems << endl;
+    cout << "Low Stock Products: " << lowStock << endl;
+    cout << "Total Stock Value: $" << stockValue << endl;
+}
+
+int main()
+{
+    string id[20] =
+    {
+        "101", "102", "103", "104", "105",
+        "106", "107", "108", "109", "110",
+        "111", "112", "113", "114", "115",
+        "116", "117", "118", "119", "120"
+    };
+
+    string name[20] =
+    {
+        "Oversized T-Shirt",
+        "Classic Jeans",
+        "Summer Dress",
+        "Leather Jacket",
+        "Hoodie",
+        "Formal Shirt",
+        "Kids T-Shirt",
+        "Kids Dress",
+        "Sneakers",
+        "High Heels",
+        "Hand Bag",
+        "Backpack",
+        "Watch",
+        "Necklace",
+        "Sunglasses",
+        "Cap",
+        "Scarf",
+        "Winter Coat",
+        "Sports Set",
+        "Evening Dress"
+    };
+
+    string category[20] =
+    {
+        "Women", "Women", "Women", "Women", "Women",
+        "Men", "Kids", "Kids", "Shoes", "Shoes",
+        "Bags", "Bags", "Accessories", "Accessories",
+        "Accessories", "Accessories", "Accessories",
+        "Women", "Men", "Women"
+    };
+
+    string gender[20] =
+    {
+        "Women", "Women", "Women", "Women", "Women",
+        "Men", "Kids", "Kids", "Unisex", "Women",
+        "Women", "Unisex", "Unisex", "Women", "Unisex",
+        "Unisex", "Women", "Women", "Men", "Women"
+    };
+
+    string size[20] =
+    {
+        "M", "L", "M", "L", "XL",
+        "L", "S", "M", "42", "39",
+        "Medium", "Large", "One Size", "One Size", "One Size",
+        "One Size", "One Size", "XL", "L", "M"
+    };
+
+    string color[20] =
+    {
+        "Black", "Blue", "Pink", "Black", "Gray",
+        "White", "Red", "Pink", "White", "Black",
+        "Brown", "Black", "Silver", "Gold", "Black",
+        "Beige", "Pink", "Brown", "Black", "Red"
+    };
+
+    double price[20] =
+    {
+        350, 600, 750, 1200, 700,
+        450, 250, 400, 900, 1000,
+        800, 650, 500, 350, 300,
+        200, 250, 1500, 850, 1300
+    };
+
+    int stock[20] =
+    {
+        25, 18, 12, 8, 20,
+        30, 25, 15, 10, 7,
+        9, 14, 11, 20, 18,
+        25, 13, 6, 16, 5
+    };
+
+    int quantity[20] = {0};
+    string cartSize[20];
+    string cartColor[20];
+
+    int productCount = 20;
+    int choice;
+
+    string customerName;
+    string phone;
+    string address;
+
+    int orderID = 1000;
+    double totalSales = 0;
+
+    do
+    {
+        cout << "\n\n";
+        cout << "=====================================\n";
+        cout << "        FASHION HOUSE\n";
+        cout << "   CLOTHING STORE MANAGEMENT\n";
+        cout << "=====================================\n";
+
+        cout << "\n1. View Categories";
+        cout << "\n2. View All Products";
+        cout << "\n3. Search Products";
+        cout << "\n4. Add Product To Cart";
+        cout << "\n5. View Cart";
+        cout << "\n6. Remove Product From Cart";
+        cout << "\n7. Checkout";
+        cout << "\n8. Low Stock Report";
+        cout << "\n9. Store Statistics";
+        cout << "\n10. Exit";
+
+        cout << "\n\nEnter your choice: ";
+        cin >> choice;
+
+        if (choice == 1)
+        {
+            showCategories();
+        }
+
+        else if (choice == 2)
+        {
+            showProducts(id, name, category, gender, size, color,
+                         price, stock, productCount);
+        }
+
+        else if (choice == 3)
+        {
+            searchProducts(id, name, category, price, stock, productCount);
+        }
+
+        else if (choice == 4)
+        {
+            string productID;
+            int amount;
+
+            cout << "\nEnter Product ID: ";
+            cin >> productID;
+
+            int index = -1;
+
+            for (int i = 0; i < productCount; i++)
+            {
+                if (id[i] == productID)
+                {
+                    index = i;
+                }
+            }
+
+            if (index == -1)
+            {
+                cout << "\nProduct not found.\n";
+            }
+            else
+            {
+                cout << "\nProduct: " << name[index];
+                cout << "\nPrice: $" << price[index];
+                cout << "\nAvailable Stock: " << stock[index];
+
+                cout << "\n\nEnter Size: ";
+                cin >> cartSize[index];
+
+                cout << "Enter Color: ";
+                cin >> cartColor[index];
+
+                cout << "Enter Quantity: ";
+                cin >> amount;
+
+                if (amount <= 0)
+                {
+                    cout << "\nInvalid quantity.\n";
+                }
+                else if (amount > stock[index])
+                {
+                    cout << "\nNot enough stock available.\n";
+                }
+                else
+                {
+                    quantity[index] += amount;
+
+                    if (quantity[index] > stock[index])
+                    {
+                        quantity[index] -= amount;
+                        cout << "\nYou cannot add this quantity.\n";
+                    }
+                    else
+                    {
+                        cout << "\nProduct added to cart successfully!\n";
+                    }
+                }
+            }
+        }
+
+        else if (choice == 5)
+        {
+            showCart(name, price, quantity,
+                     cartSize, cartColor, productCount);
+        }
+
+        else if (choice == 6)
+        {
+            string productID;
+
+            cout << "\nEnter Product ID to remove: ";
+            cin >> productID;
+
+            int index = -1;
+
+            for (int i = 0; i < productCount; i++)
+            {
+                if (id[i] == productID)
+                {
+                    index = i;
+                }
+            }
+
+            if (index == -1)
+            {
+                cout << "\nProduct not found.\n";
+            }
+            else if (quantity[index] == 0)
+            {
+                cout << "\nThis product is not in the cart.\n";
+            }
+            else
+            {
+                quantity[index] = 0;
+                cout << "\nProduct removed from cart.\n";
+            }
+        }
+
+        else if (choice == 7)
+        {
+            double subtotal = 0;
+            double discount = 0;
+            double delivery = 0;
+            double total = 0;
+
+            bool empty = true;
+
+            for (int i = 0; i < productCount; i++)
+            {
+                if (quantity[i] > 0)
+                {
+                    subtotal += price[i] * quantity[i];
+                    empty = false;
+                }
+            }
+
+            if (empty == true)
+            {
+                cout << "\nYour cart is empty.\n";
+            }
+            else
+            {
+                cin.ignore();
+
+                cout << "\n========== CUSTOMER INFORMATION ==========\n";
+
+                cout << "Enter Customer Name: ";
+                getline(cin, customerName);
+
+                cout << "Enter Phone: ";
+                getline(cin, phone);
+
+                cout << "Enter Address: ";
+                getline(cin, address);
+
+                if (subtotal >= 1000)
+                {
+                    discount = subtotal * 0.15;
+                }
+                else if (subtotal >= 500)
+                {
+                    discount = subtotal * 0.10;
+                }
+                else
+                {
+                    discount = 0;
+                }
+
+                int area;
+
+                cout << "\n========== DELIVERY ==========\n";
+                cout << "1. Inside City - $30\n";
+                cout << "2. Outside City - $70\n";
+                cout << "Enter Area: ";
+                cin >> area;
+
+                if (area == 1)
+                {
+                    delivery = 30;
+                }
+                else if (area == 2)
+                {
+                    delivery = 70;
+                }
+                else
+                {
+                    delivery = 30;
+                    cout << "Invalid area. Default delivery = $30\n";
+                }
+
+                total = subtotal - discount + delivery;
+
+                cout << "\n========== PAYMENT ==========\n";
+                cout << "1. Cash\n";
+                cout << "2. Card\n";
+                cout << "3. Wallet\n";
+
+                int payment;
+                cout << "Choose Payment Method: ";
+                cin >> payment;
+
+                string paymentMethod;
+
+                if (payment == 1)
+                {
+                    paymentMethod = "Cash";
+                }
+                else if (payment == 2)
+                {
+                    paymentMethod = "Card";
+                }
+                else if (payment == 3)
+                {
+                    paymentMethod = "Wallet";
+                }
+                else
+                {
+                    paymentMethod = "Cash";
+                    cout << "Invalid choice. Cash selected.\n";
+                }
+
+                cout << "\n\n=====================================\n";
+                cout << "              INVOICE\n";
+                cout << "=====================================\n";
+
+                cout << "Order ID: " << orderID << endl;
+                cout << "Customer: " << customerName << endl;
+                cout << "Phone: " << phone << endl;
+                cout << "Address: " << address << endl;
+
+                cout << "\n----------- PRODUCTS -----------\n";
+
+                for (int i = 0; i < productCount; i++)
+                {
+                    if (quantity[i] > 0)
+                    {
+                        cout << name[i] << " x "
+                             << quantity[i]
+                             << " = $"
+                             << price[i] * quantity[i]
+                             << endl;
+
+                        stock[i] -= quantity[i];
+                    }
+                }
+
+                cout << "\nSubtotal: $" << subtotal;
+                cout << "\nDiscount: $" << discount;
+                cout << "\nDelivery: $" << delivery;
+                cout << "\nTotal: $" << total;
+                cout << "\nPayment: " << paymentMethod;
+
+                cout << "\n=====================================\n";
+                cout << "       ORDER COMPLETED SUCCESSFULLY\n";
+                cout << "=====================================\n";
+
+                totalSales += total;
+
+                orderID++;
+
+                for (int i = 0; i < productCount; i++)
+                {
+                    quantity[i] = 0;
+                }
+            }
+        }
+
+        else if (choice == 8)
+        {
+            lowStockReport(name, stock, productCount);
+        }
+
+        else if (choice == 9)
+        {
+            storeStatistics(name, price, stock, productCount);
+
+            cout << "\nTotal Sales: $" << totalSales << endl;
+        }
+
+        else if (choice == 10)
+        {
+            cout << "\nThank you for using Fashion House!\n";
+        }
+
+        else
+        {
+            cout << "\nInvalid choice. Try again.\n";
+        }
+
+    } while (choice != 10);
+
+    return 0;
+}
